@@ -17,19 +17,17 @@ export default function Home() {
   const handleLogin = (e) => {
     e.preventDefault();
     if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
+      setIsAdminAuthenticated(true);  // Changed from setIsAuthenticated
       localStorage.setItem('isAdminAuthenticated', 'true');
     } else {
       alert('Invalid password');
     }
   };
 
-  // Add logout functionality
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    setIsAdminAuthenticated(false);  // Changed from setIsAuthenticated
     localStorage.removeItem('isAdminAuthenticated');
   };
-
   const fetchQrCode = async (phoneNumber) => {
     const response = await fetch(`/api/auth?phoneNumber=${phoneNumber}`);
     const data = await response.json();
