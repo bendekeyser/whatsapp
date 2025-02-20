@@ -3,27 +3,27 @@ import { initializeWhatsAppClient } from '../../../lib/whatsapp';
 
 export const config = {
   runtime: 'edge',
-  regions: ['fra1'], // Specify a single region for better performance
+  regions: ['fra1'],
 };
 
 export default async function handler(request) {
-  const url = new URL(request.url);
-  const phoneNumber = url.searchParams.get('phoneNumber');
-
-  if (!phoneNumber) {
-    return NextResponse.json(
-      { message: 'Missing phoneNumber' },
-      { status: 400 }
-    );
-  }
-
   try {
+    const { searchParams } = new URL(request.url);
+    const phoneNumber = searchParams.get('phoneNumber');
+
+    if (!phoneNumber) {
+      return NextResponse.json(
+        { error: 'Missing phoneNumber' },
+        { status: 400 }
+      );
+    }
+
     const { qrCodeData, isAuthenticated } = await initializeWhatsAppClient(phoneNumber);
     return NextResponse.json({ qrCodeData, isAuthenticated });
   } catch (error) {
-    console.error(error);
+    console.error('Auth error:', error);
     return NextResponse.json(
-      { message: 'Failed to initialize WhatsApp client' },
+      { error: 'Failed to initialize WhatsApp client' },
       { status: 500 }
     );
   }

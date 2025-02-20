@@ -3,5 +3,17 @@
     "api/**/*.js": {
       "maxDuration": 60
     }
-  }
+  },
+  "routes": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*",
+      "methods": ["GET", "POST"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
+    }
+  ]
 }
