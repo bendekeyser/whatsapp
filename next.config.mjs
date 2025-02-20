@@ -12,6 +12,16 @@ const nextConfig = {
     }
     return config;
   },
+  async headers() {
+    return [
+      {
+        source: '/api/:path*',
+        headers: [
+          { key: 'Connection', value: 'keep-alive' }
+        ],
+      },
+    ];
+  }
 };
 
 export default nextConfig;
